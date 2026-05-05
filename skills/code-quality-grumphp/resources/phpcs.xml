@@ -1,0 +1,25 @@
+<?xml version="1.0"?>
+<ruleset name="Code Quality">
+    <description>Code complexity and quality checks (styling handled by Pint)</description>
+
+    <file>app</file>
+
+    <exclude-pattern>vendor/*</exclude-pattern>
+    <exclude-pattern>*.blade.php</exclude-pattern>
+
+    <!-- Cyclomatic complexity: warn at 10, error at 20 -->
+    <rule ref="Generic.Metrics.CyclomaticComplexity">
+        <properties>
+            <property name="complexity" value="10"/>
+            <property name="absoluteComplexity" value="20"/>
+        </properties>
+    </rule>
+
+    <!-- Nesting level: warn at 5, error at 10 -->
+    <rule ref="Generic.Metrics.NestingLevel">
+        <properties>
+            <property name="nestingLevel" value="5"/>
+            <property name="absoluteNestingLevel" value="10"/>
+        </properties>
+    </rule>
+</ruleset>

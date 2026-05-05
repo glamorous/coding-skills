@@ -1,0 +1,13 @@
+{
+    "name": "coding-skills",
+    "owner": {
+        "name": "Jonas De Smet"
+    },
+    "plugins": [
+        {
+            "name": "coding-skills",
+            "source": ".",
+            "description": "Personal Laravel/PHP conventions packaged as reusable Claude Code skills."
+        }
+    ]
+}

@@ -1,0 +1,74 @@
+grumphp:
+    hooks_dir: ./hooks
+    hooks_preset: local
+    stop_on_failure: true
+    ignore_unstaged_changes: true
+    hide_circumvention_tip: true
+    process_timeout: 300
+
+    tasks:
+        jsonlint:
+            detect_key_conflicts: true
+
+        laravel_pint:
+            triggered_by: ['php']
+
+        git_blacklist:
+            keywords:
+                - '\bdd\('
+                - 'dump\('
+                - 'var_dump\('
+                - 'print_r\('
+                - 'die\('
+                - '\bray\('
+            triggered_by: ['php']
+            regexp_type: E
+            match_word: false
+
+        phpstan:
+            use_grumphp_paths: false
+            memory_limit: '-1'
+            triggered_by: ['php']
+
+        phpcs:
+            standard: ['phpcs.xml']
+            triggered_by: ['php']
+            ignore_patterns:
+                - '/\.blade\.php$/'
+
+        phpmnd:
+            directory: app
+            triggered_by: ['php']
+            exclude: []
+            exclude_name: []
+            exclude_path: []
+            extensions:
+                - default_parameter
+                - return
+                - condition
+                - switch_case
+                - assign
+                - property
+
+        securitychecker_composeraudit:
+            run_always: true
+
+        git_commit_message:
+            allow_empty_message: false
+            enforce_capitalized_subject: true
+            enforce_no_subject_punctuations: false
+            enforce_no_subject_trailing_period: true
+            enforce_single_lined_subject: true
+            max_subject_width: 72
+            max_body_width: 0
+            matchers:
+                - '/^.{10,}/'
+            case_insensitive: true
+            additional_modifiers: ''
+            multiline: true
+
+        pest:
+            always_execute: true
+
+    extensions:
+        - YieldStudio\GrumPHPLaravelPint\ExtensionLoader

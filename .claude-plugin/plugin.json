@@ -1,0 +1,8 @@
+{
+    "name": "coding-skills",
+    "version": "0.1.0",
+    "description": "Personal Laravel/PHP conventions packaged as reusable Claude Code skills (also agentskills.io-compatible).",
+    "author": {
+        "name": "Jonas De Smet"
+    }
+}

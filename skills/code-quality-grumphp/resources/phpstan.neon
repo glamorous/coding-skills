@@ -1,0 +1,29 @@
+includes:
+    - vendor/larastan/larastan/extension.neon
+    - vendor/nesbot/carbon/extension.neon
+
+parameters:
+    paths:
+        - app/
+        - bootstrap/
+        - config/
+        - database/
+        - resources/views/
+        - routes/
+
+    level: 8
+
+    scanFiles:
+        - _ide_helper_models.php
+
+    ignoreErrors:
+        -
+            identifier: expr.resultUnused
+            path: resources/views/**/*.blade.php
+        -
+            identifier: variable.undefined
+            path: resources/views/flux/**/*.blade.php
+
+    excludePaths: []
+
+    noEnvCallsOutsideOfConfig: true
