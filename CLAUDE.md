@@ -4,9 +4,14 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## What this repo is
 
-A collection of personal Laravel/PHP coding conventions packaged as reusable skills following the [agentskills.io](https://agentskills.io) `SKILL.md` spec. There is no application code, no build step, no test suite — the deliverables are `SKILL.md` files (plus optional `assets/` and `references/` artefacts) that any compliant agent (Claude Code, Cursor, Copilot, Codex, …) loads and follows when editing Laravel/PHP projects.
+A collection of personal coding-related skills following the [agentskills.io](https://agentskills.io) `SKILL.md` spec — mostly Laravel/PHP conventions, plus a handful of workflow/runbook skills (e.g. Sentry triage, Git workflow). There is no application code, no build step, no test suite — the deliverables are `SKILL.md` files (plus optional `assets/` and `references/` artefacts) that any compliant agent (Claude Code, Cursor, Copilot, Codex, …) loads and follows.
 
-Don't add agent-specific assumptions to a `SKILL.md` body — keep it portable across consumers.
+Two flavours of skill live here:
+
+- **Convention skills** auto-activate when the agent edits matching code (e.g. `laravel-models` triggers on Eloquent model edits).
+- **Workflow skills** are invoked by the user — by phrasing ("triage sentry issues") or by `/`-name in agents that support it (`/sentry-triage`).
+
+Don't add agent-specific assumptions to a `SKILL.md` body — keep it portable across consumers. Workflow skills that depend on a specific MCP server should say so explicitly and fail fast in a preflight rather than silently degrade.
 
 ## Repository layout
 

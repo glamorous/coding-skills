@@ -1,6 +1,6 @@
 # coding-skills
 
-Personal Laravel/PHP coding conventions packaged as reusable skills following the [agentskills.io](https://agentskills.io) `SKILL.md` spec, so they work in any compliant agent (Claude Code, Cursor, GitHub Copilot, Codex, …).
+Personal coding-related skills packaged following the [agentskills.io](https://agentskills.io) `SKILL.md` spec, so they work in any compliant agent (Claude Code, Cursor, GitHub Copilot, Codex, …). Mostly Laravel/PHP conventions, plus a few workflow/runbook skills.
 
 ## Install
 
@@ -33,6 +33,7 @@ Skills auto-activate when their `description` matches the active task — no man
 | `laravel-collections` | Array transformations and associative-array reads |
 | `code-quality-grumphp` | Projects that already have GrumPHP configured, or explicit requests to set it up |
 | `git-workflow` | Committing, merging, rebasing, or cutting a release |
+| `sentry-triage` | Walking through unresolved Sentry issues — fetch, root-cause, fix, commit (requires Sentry MCP) |
 
 Each skill is a folder under `skills/<name>/` containing a `SKILL.md` (the rules) and, where relevant, an `assets/` folder with copy-able artefacts (traits, validation rules, configs) and a `references/` folder with markdown the skill loads on demand. The SKILL.md tells you which file to copy where.
 
