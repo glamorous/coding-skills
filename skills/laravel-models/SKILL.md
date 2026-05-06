@@ -126,5 +126,5 @@ Full Resource shape conventions live in `laravel-resources`.
 
 When adopting in a fresh project:
 
-- Copy `resources/Traits/HasIdentifier.php` to `app/Traits/HasIdentifier.php`.
-- Copy `resources/Filters/AbstractFilter.php` to `app/Filters/AbstractFilter.php`.
+- Copy `assets/Traits/HasIdentifier.php` to `app/Traits/HasIdentifier.php`.
+- Copy `assets/Filters/AbstractFilter.php` to `app/Filters/AbstractFilter.php`.

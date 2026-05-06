@@ -4,8 +4,8 @@ One-time setup when adopting the helpers from `laravel-architecture` in a fresh 
 
 ## Files to copy
 
-- Copy `resources/helpers.php` to `helpers/general.php` (or any name) and add the path to `composer.json`'s `"autoload": { "files": [...] }`. Run `composer dump-autoload`.
-- Copy `resources/Rules/GivenValueShouldExists.php` to `app/Rules/GivenValueShouldExists.php`.
+- Copy `assets/helpers.php` to `helpers/general.php` (or any name) and add the path to `composer.json`'s `"autoload": { "files": [...] }`. Run `composer dump-autoload`.
+- Copy `assets/Rules/GivenValueShouldExists.php` to `app/Rules/GivenValueShouldExists.php`.
 
 ## Required `User->timezone()` method
 

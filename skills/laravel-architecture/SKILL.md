@@ -61,7 +61,7 @@ class CreateRegistrationAction
 
 ## 3. Form Requests
 
-> **Before editing any Form Request — `rules()`, `authorize()`, `after()`, validation arrays, or getter methods — load `resources/form-requests.md`. That file is the single source of truth: rules summary, identifier/date validation patterns, required PHPDoc shapes, and getter templates (required / nullable / enum) with `once()` and `throw_unless()`.**
+> **Before editing any Form Request — `rules()`, `authorize()`, `after()`, validation arrays, or getter methods — load `references/form-requests.md`. That file is the single source of truth: rules summary, identifier/date validation patterns, required PHPDoc shapes, and getter templates (required / nullable / enum) with `once()` and `throw_unless()`.**
 
 ## 4. Global helpers
 
@@ -102,7 +102,7 @@ Never call `->format('d/m/Y')` or `->format('d/m/Y H:i')` directly in views — 
 | `format_date(CarbonInterface): string` | Uniform date display, no timezone conversion. |
 | `GivenValueShouldExists` (rule) | Validation rule that defers existence to a closure. |
 
-→ **Load `resources/helpers-setup.md`** only when adopting these helpers in a fresh project for the first time — it covers the files to copy, the composer autoload wiring, and the `User->timezone()` method patterns. Skip during normal day-to-day editing.
+→ **Load `references/helpers-setup.md`** only when adopting these helpers in a fresh project for the first time — it covers the files to copy, the composer autoload wiring, and the `User->timezone()` method patterns. Skip during normal day-to-day editing.
 
 ## 5. Configuration
 

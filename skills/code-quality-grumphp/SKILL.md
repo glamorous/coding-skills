@@ -75,12 +75,12 @@ composer require --dev \
 
 ### Files to copy
 
-Copy each file from `resources/` to the project root:
+Copy each file from `assets/` to the project root:
 
-- `resources/grumphp.yml` → `grumphp.yml`
-- `resources/phpstan.neon` → `phpstan.neon`
-- `resources/phpcs.xml` → `phpcs.xml`
-- `resources/pint.json` → `pint.json`
+- `assets/grumphp.yml` → `grumphp.yml`
+- `assets/phpstan.neon` → `phpstan.neon`
+- `assets/phpcs.xml` → `phpcs.xml`
+- `assets/pint.json` → `pint.json`
 
 Then install the Git hooks:
 
