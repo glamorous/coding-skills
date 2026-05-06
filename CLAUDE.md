@@ -48,6 +48,18 @@ When editing one skill, scan the others for cross-references — the rules are i
 - **Add a skill**: create `skills/<name>/`, write `SKILL.md` with the frontmatter pattern above, add it to the table in `README.md`.
 - **Test locally**: copy the skill folder into `~/.claude/skills/<name>/` (or run `npx skills add <local-path-or-repo>` once the change is pushed), then trigger a matching task in any agent to verify the `description` activates the skill.
 
+## Contributor setup
+
+After cloning, activate the repo's pre-commit hook once:
+
+```
+git config core.hooksPath .githooks
+```
+
+The hook validates every staged `skills/*/SKILL.md`: frontmatter must parse as YAML, `name` must match the folder, `description` must be present and start with `Use `. It only needs Ruby, which ships with macOS and most Linux distros. It runs on `git commit` and refuses the commit if a check fails — fix the file and re-stage; do not bypass with `--no-verify`.
+
+Common YAML pitfall in `description`: a colon followed by a space (`cycle: fetch`) inside an unquoted plain scalar is parsed as a nested mapping and breaks the file. Replace with a dash (`cycle — fetch`) or rephrase. The hook catches this.
+
 ## Committing changes to this repo
 
 The `git-workflow` skill defines the general commit rules (single-purpose commits, capitalised imperative subject ≤ 72 chars, descriptive body, propose-and-await-approval). Consumers pick up changes by re-running `npx skills add …`, so no version manifest needs bumping — the git SHA is the version.

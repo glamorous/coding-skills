@@ -1,0 +1,65 @@
+#!/usr/bin/env bash
+# Validate frontmatter on every staged skills/<name>/SKILL.md before letting
+# the commit proceed. Activate once per clone with:
+#   git config core.hooksPath .githooks
+
+set -euo pipefail
+
+STAGED=$(git diff --cached --name-only --diff-filter=ACM | grep -E '^skills/[^/]+/SKILL\.md$' || true)
+if [ -z "$STAGED" ]; then
+  exit 0
+fi
+
+if ! command -v ruby >/dev/null 2>&1; then
+  echo "pre-commit: ruby is required to validate SKILL.md frontmatter (it ships with macOS and most Linux distros)." >&2
+  exit 1
+fi
+
+export STAGED
+ruby - <<'RUBY'
+require 'yaml'
+
+files = ENV['STAGED'].split("\n").reject(&:empty?)
+errors = []
+
+files.each do |f|
+  content = File.read(f)
+  m = content.match(/\A---\n(.*?)\n---/m)
+  unless m
+    errors << "#{f}: missing or malformed frontmatter (must open and close with ---)"
+    next
+  end
+
+  begin
+    data = YAML.safe_load(m[1])
+  rescue => e
+    errors << "#{f}: YAML parse error — #{e.message}"
+    next
+  end
+
+  unless data.is_a?(Hash)
+    errors << "#{f}: frontmatter is not a mapping"
+    next
+  end
+
+  folder = File.dirname(f).split('/').last
+  if data['name'] != folder
+    errors << "#{f}: name (#{data['name'].inspect}) must match folder (#{folder.inspect})"
+  end
+
+  desc = data['description']
+  if desc.nil? || desc.to_s.strip.empty?
+    errors << "#{f}: description is required"
+  elsif !desc.start_with?('Use ')
+    errors << "#{f}: description must start with 'Use ' (per CLAUDE.md authoring rule)"
+  end
+end
+
+unless errors.empty?
+  warn 'pre-commit: SKILL.md validation failed:'
+  errors.each { |e| warn "  - #{e}" }
+  warn ''
+  warn 'Fix the offending file(s) and re-stage. Bypassing this hook with --no-verify is not allowed.'
+  exit 1
+end
+RUBY
