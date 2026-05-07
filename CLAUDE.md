@@ -62,4 +62,6 @@ Common YAML pitfall in `description`: a colon followed by a space (`cycle: fetch
 
 ## Committing changes to this repo
 
-The `git-workflow` skill defines the general commit rules (single-purpose commits, capitalised imperative subject ≤ 72 chars, descriptive body, propose-and-await-approval). Consumers pick up changes by re-running `npx skills add …`, so no version manifest needs bumping — the git SHA is the version.
+The `git-workflow` skill defines the general commit rules (single-purpose commits, capitalised imperative subject ≤ 72 chars, descriptive body, propose-and-await-approval).
+
+There is no `package.json` or version field in the SKILL frontmatter, but the repo does cut semver releases via annotated git tags (`v1.0.0`, `v1.1.0`, …). After a change lands, tag the resulting commit with the next version following semver: **minor** for new skills or material additions to an existing skill (`git tag -a v1.x.0 -m "Release v1.x.0"`), **patch** for bugfixes and typo corrections. Consumers refresh by re-running `npx skills add …`, which pulls the latest commit on the default branch — the tag is the human-readable marker, not a publishing trigger.
