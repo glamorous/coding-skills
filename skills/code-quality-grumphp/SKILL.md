@@ -70,8 +70,12 @@ composer require --dev \
     phpstan/phpstan \
     squizlabs/php_codesniffer \
     povils/phpmnd \
-    pestphp/pest
+    pestphp/pest \
+    barryvdh/laravel-ide-helper \
+    barryvdh/laravel-debugbar
 ```
+
+`barryvdh/laravel-ide-helper` is required by the gate, not optional: `phpstan.neon` reads `_ide_helper_models.php` via `scanFiles`, and without it level 8 fails on Eloquent query types. `barryvdh/laravel-debugbar` registers itself through Laravel package auto-discovery — no further configuration needed.
 
 ### Files to copy
 
@@ -88,10 +92,28 @@ Then install the Git hooks:
 ./vendor/bin/grumphp git:init
 ```
 
+### ide-helper auto-regeneration
+
+Wire the three ide-helper commands into `composer.json` so they run after every `composer install` / `composer update`:
+
+```json
+{
+    "scripts": {
+        "post-update-cmd": [
+            "@php artisan ide-helper:generate --ansi",
+            "@php artisan ide-helper:meta --ansi",
+            "@php artisan ide-helper:models --write-mixin --reset --ansi"
+        ]
+    }
+}
+```
+
+These regenerate `_ide_helper.php` (facade signatures), `.phpstorm.meta.php` (PhpStorm container hints), and `_ide_helper_models.php` (model `@mixin` blocks consumed by PHPStan). The third command reads the live database schema, so migrations must have run — drop it from the production CI pipeline if `composer install` runs there before any DB is available.
+
 ### Adapting the bundled configs
 
 The bundled configs reflect a particular project's preferences. Adjust per project:
 
-- **`phpstan.neon`** — `paths` and `scanFiles` may differ depending on which folders your project wants analysed. The Larastan and Carbon extensions, level 8, and the Blade/Flux ignores are the parts worth keeping verbatim.
+- **`phpstan.neon`** — `paths` and `scanFiles` may differ depending on which folders your project wants analysed. The Larastan and Carbon extensions, level 8, and the Blade/Flux ignores are the parts worth keeping verbatim. The `_ide_helper_models.php` entry under `scanFiles` is produced by the ide-helper composer hook above — keep them aligned if you rename the file.
 - **`phpcs.xml`** — change the `<ruleset name>` and `<description>` to whatever fits. The cyclomatic complexity (10/20) and nesting level (5/10) rules are the load-bearing parts.
 - **`pint.json`** — Laravel preset plus a strict ruleset. Omit individual rules you don't want; add project-specific ones.
