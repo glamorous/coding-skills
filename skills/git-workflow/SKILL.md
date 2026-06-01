@@ -77,13 +77,39 @@ Rule of thumb:
 
 ## 4. Branch model
 
-- `master` — released code only. Updated through release merges from `develop`.
+Two variants are supported. Detect which one applies by checking whether the repo has a `develop` branch (`git show-ref --verify --quiet refs/heads/develop`). Pick the matching variant and stick to it.
+
+### 4a. `develop` + `master` (full flow)
+
+- `master` — released code only. Updated **exclusively** through release merges from `develop` (see section 6). The only exception is a hotfix (see section 7).
 - `develop` — integration branch. Day-to-day work lands here, typically through short-lived feature branches.
-- Feature branches — branch off `develop`, rebase onto `develop` to stay current, and return to `develop` once ready (fast-forward after rebase, or a normal merge).
+- Feature branches — branch off `develop`, rebase onto `develop` to stay current, and return to `develop` via fast-forward once ready.
 
-## 5. Release merges (`develop` → `master`)
+Regular bugfixes, features, refactors, chores — all of those go to `develop`, never straight to `master`.
 
-This is the one place a merge commit is intentional. Use `--no-ff` so the merge commit is preserved as the release marker.
+### 4b. `master` only (no `develop`)
+
+When the repo has no `develop` branch, `master` *is* the integration branch. All commits land directly on `master`, or via short-lived feature branches that fast-forward back into `master`. **There is no release merge in this mode — every integration is fast-forward.** Section 6 does not apply; creating a `--no-ff` merge commit for normal work in a master-only repo is wrong.
+
+## 5. Default integration strategy — fast-forward
+
+Outside of the release merge described in section 6, **every** integration is fast-forward. This covers:
+
+- Returning a feature branch to its parent (`develop`, or `master` in a master-only repo) after a rebase.
+- Pulling the upstream into your local copy of a shared branch.
+- Hotfix commits on `master` (section 7).
+- Any commit in a master-only repo (section 4b).
+
+```
+git pull --ff-only
+git merge --ff-only <branch>
+```
+
+If a fast-forward is refused, rebase the source branch onto the target first — do not fall back to a merge commit.
+
+## 6. Release merges (`develop` → `master`)
+
+This is the **one and only** place a merge commit is intentional. Applies only to the full flow (section 4a); skip entirely in a master-only repo. Use `--no-ff` so the merge commit is preserved as the release marker.
 
 ```
 git checkout master
@@ -125,7 +151,28 @@ Chore:
 - Bump Larastan to 2.9
 ```
 
-## 6. Always propose the commit — never commit unprompted
+## 7. Hotfixes on `master`
+
+A hotfix is a fix that cannot wait for the next release. In the full flow (section 4a) it is the only legitimate reason to write directly on `master`; in a master-only repo (section 4b) every commit is effectively a "hotfix" and this section adds no extra constraints.
+
+Rules:
+
+- The hotfix commit (or branch merge) lands on `master` as a **fast-forward** — never `--no-ff`.
+- Same single-purpose + message rules as any other commit (sections 1 and 2).
+- Afterwards, propagate the fix back to `develop` by rebasing or cherry-picking, so the next release does not regress it.
+
+```
+git checkout master
+git pull --ff-only
+# make the fix, commit
+git push
+
+git checkout develop
+git pull --ff-only
+git rebase master      # or: git cherry-pick <hotfix-sha>
+```
+
+## 8. Always propose the commit — never commit unprompted
 
 Committing is never automatic. Even when the user asks for "a commit", an agent must:
 
@@ -135,10 +182,11 @@ Committing is never automatic. Even when the user asks for "a commit", an agent 
 
 The same rule applies to merges, rebases, and release merges: state the plan, show the proposed message, and wait for a green light. If the user pushes back on the message or scope, revise and re-propose — do not commit and "fix it later" with an amend.
 
-## 7. Things to avoid
+## 9. Things to avoid
 
 - `--no-verify` — never bypass commit hooks.
 - Force-pushing to shared branches (`develop`, `master`).
 - One-word or "WIP" / "fix typo" subjects on commits intended for review.
 - Merging the upstream into a feature branch instead of rebasing.
 - Squashing unrelated commits together just to reduce the commit count — that defeats the one-purpose rule.
+- `--no-ff` merges outside the release merge in section 6. In particular: never create a merge commit per commit in a master-only repo.
