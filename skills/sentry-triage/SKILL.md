@@ -1,6 +1,6 @@
 ---
 name: sentry-triage
-description: Use when the user asks to triage, resolve, fix, or work through unresolved Sentry issues for the current project — typical phrasings are "fix sentry errors", "resolve sentry issues", "go through unresolved sentry", or invoking /sentry-triage. Requires a Sentry MCP server (tools prefixed `mcp__sentry__*`). Enforces a strict per-issue cycle — fetch full issue + stacktrace, identify the first-party file/line, do real root-cause analysis (not symptom patching), grep the entire codebase for the same vulnerable pattern, present root cause + proposed fix + every other affected location to the user, wait for explicit approval before any edit, then commit with a `Fixes <ISSUE-ID>` trailer so Sentry auto-resolves the issue.
+description: Use when the user asks to triage, resolve, fix, or work through unresolved Sentry issues for the current project — typical phrasings are "fix sentry errors", "resolve sentry issues", "go through unresolved sentry", or invoking /sentry-triage.
 ---
 
 # Sentry triage

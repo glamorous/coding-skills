@@ -1,6 +1,6 @@
 ---
 name: laravel-data-objects-enums
-description: Use when creating or modifying PHP enum types or Data Object (DTO) classes. Enforces backed enums with a label() method, multi-case match formatting, and immutable readonly DTO classes optionally implementing Castable for Eloquent attribute casting.
+description: Use when creating or modifying PHP enum types or Data Object (DTO) classes.
 ---
 
 # Data Objects & Enums

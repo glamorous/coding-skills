@@ -1,6 +1,6 @@
 ---
 name: git-workflow
-description: Use when committing, merging, rebasing, or cutting a release on a Git repository. Enforces single-purpose commits, a structured subject + body message format (capitalised imperative subject ≤ 72 chars, no trailing period, descriptive body), rebase-over-merge to keep feature branches current, and a `develop` → `master` release-merge convention with a `Release …` subject and a body that groups the included commits by category.
+description: Use when committing, merging, rebasing, or cutting a release on a Git repository.
 ---
 
 # Git workflow

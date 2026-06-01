@@ -1,6 +1,6 @@
 ---
 name: laravel-architecture
-description: Use when creating or modifying Laravel controllers, Form Requests, Action classes, configuration files, Artisan commands, Jobs/Events/Listeners/Mailables, or global helpers used in the request lifecycle. Covers the "follow Laravel conventions first" principle, invokable single-action controllers, thin coordination logic, Actions with execute(), Form Requests with once() getters and identifier validation, project helper functions, configuration conventions (config() over env(), kebab-case files, snake_case keys), Artisan command conventions, and naming for framework classes (Jobs, Events, Listeners, Console commands, Mailables).
+description: Use when creating or modifying Laravel controllers, Form Requests, Action classes, configuration files, Artisan commands, Jobs, Events, Listeners, Mailables, or global helpers used in the request lifecycle.
 ---
 
 # Laravel architecture

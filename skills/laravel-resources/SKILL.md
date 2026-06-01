@@ -1,6 +1,6 @@
 ---
 name: laravel-resources
-description: Use when creating or modifying Laravel API Resource classes (JsonResource). Enforces @mixin type-hints on the resource, whenLoaded() for relationship payloads, an inline can array for per-record authorisation derived from policies, and ATOM-formatted timestamps via toAtomString().
+description: Use when creating or modifying Laravel API Resource classes (JsonResource).
 ---
 
 # Laravel API Resources

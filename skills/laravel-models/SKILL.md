@@ -1,6 +1,6 @@
 ---
 name: laravel-models
-description: Use when creating or modifying Eloquent models, custom Builders, Filters, migrations, or anywhere a model reference is exposed (Blade, Livewire, routes, resources, requests). Covers ULID identifiers via HasIdentifier, custom Builders via HasBuilder, readonly Filters extending AbstractFilter, soft deletes, JSON metadata columns, and the rule that the database id never leaves the Eloquent layer.
+description: Use when creating or modifying Eloquent models, custom Builders, Filters, migrations, or anywhere a model reference is exposed (Blade, Livewire, routes, resources, requests).
 ---
 
 # Laravel models

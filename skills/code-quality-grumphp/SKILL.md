@@ -1,6 +1,6 @@
 ---
 name: code-quality-grumphp
-description: Use only when the project already has GrumPHP configured (a `grumphp.yml` at the project root or `phpro/grumphp` in `composer.json`), or when the user explicitly asks to set up the GrumPHP quality gate. Do not apply to projects that have not opted in. Covers PHPStan level 8, Pint, complexity limits, magic-number ban, dependency audit, the full test suite, and commit-message rules. Meta-rule — propose fixes to the user when a check fails, never auto-fix or bypass with --no-verify.
+description: Use only when the project already has GrumPHP configured (a `grumphp.yml` at the project root or `phpro/grumphp` in `composer.json`), or when the user explicitly asks to set up the GrumPHP quality gate. Do not apply to projects that have not opted in.
 ---
 
 # Code quality — GrumPHP gate

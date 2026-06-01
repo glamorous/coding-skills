@@ -1,6 +1,6 @@
 ---
 name: laravel-collections
-description: Use when transforming arrays or reading values from associative arrays in PHP. Enforces preferring Laravel's collect() chains over native array_map/array_filter/array_values/array_reduce, and Arr::get() over direct bracket access for associative array reads.
+description: Use when transforming arrays or reading values from associative arrays in PHP.
 ---
 
 # Laravel Collections & associative array reads

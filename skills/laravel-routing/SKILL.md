@@ -1,6 +1,6 @@
 ---
 name: laravel-routing
-description: Use when defining Laravel routes or generating URLs in controllers, Blade views, Livewire components, or tests. Enforces invokable controller routes without ->name(), the action() helper over route() for own controllers, kebab-case URL paths, camelCase non-model parameters, identifier-based implicit binding, scopeBindings() for nested resources, request()->is() over request()->routeIs() for active-page detection, and API routing conventions (plural resource names, shallow nesting).
+description: Use when defining Laravel routes or generating URLs in controllers, Blade views, Livewire components, or tests.
 ---
 
 # Laravel routing

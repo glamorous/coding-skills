@@ -1,6 +1,6 @@
 ---
 name: php-style
-description: Use when writing or reviewing PHP code in any file. Enforces strict types, strict comparison, type hints and return types (including short nullable `?Type`), curly braces, PHP 8 constructor property promotion, use statements over fully-qualified names (also in PHPDoc), shorthand array shape syntax, grouped constants, camelCase for non-public-facing names, no docblocks on fully-typed methods, no magic numbers, array-element-per-line formatting, control-flow rules (happy path last, early returns over else, multiple ifs over compound conditions, multi-line ternary), string interpolation over concatenation, and one trait per use-statement.
+description: Use when writing or reviewing PHP code in any file.
 ---
 
 # PHP style

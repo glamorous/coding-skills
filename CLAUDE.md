@@ -23,14 +23,15 @@ This split follows the agentskills.io spec — `assets/` for files the agent cop
 
 ## Authoring rules for SKILL.md
 
-The `description` is the activation signal — agents match it against the user's current task. It must:
+The `description` is a **matching instrument, not documentation**. Write it from the perspective of *"which user requests should activate this skill, and which should not"* — every clause must help an agent decide load-or-skip. Anything that only describes what the skill does once activated belongs in the body.
 
-1. Start with **"Use when …"** and enumerate the concrete triggers (file types, class kinds, operations).
-2. Then summarise **what the skill enforces**, so the agent knows what's inside before loading the body.
+1. Start with **"Use when …"** and enumerate the concrete triggers — file types, class kinds, operations, or user phrasings.
+2. Add an anti-trigger ("Do not use for …") only when there is a real risk of confusion with another skill or a hard precondition that affects matching.
+3. Do not list enforcement rules, rationale, or rule counts. Those live in the body.
 
-Both halves matter — triggers alone get the skill loaded but the agent doesn't know the rules; rules alone never get the skill loaded.
+Quick test before committing a description: every clause is either a trigger or a disambiguator. If a clause only describes *what* the skill enforces, move it out.
 
-Skill bodies are numbered sections (`## 1. …`, `## 2. …`) of terse rules with short code examples. Match this style when adding or editing skills — long prose dilutes the signal an agent picks up.
+Skill bodies are numbered sections (`## 1. …`, `## 2. …`) of terse rules with short code examples. That is where the enforcement detail lives. Match this style when adding or editing skills — long prose dilutes the signal an agent picks up.
 
 ## Cross-skill conventions encoded here
 
