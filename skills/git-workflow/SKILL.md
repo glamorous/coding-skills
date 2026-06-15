@@ -109,13 +109,15 @@ If a fast-forward is refused, rebase the source branch onto the target first —
 
 ## 6. Release merges (`develop` → `master`)
 
-This is the **one and only** place a merge commit is intentional. Applies only to the full flow (section 4a); skip entirely in a master-only repo. Use `--no-ff` so the merge commit is preserved as the release marker.
+This is the **one and only** place a merge commit is intentional. Applies only to the full flow (section 4a); skip entirely in a master-only repo. Use `--no-ff` so the merge commit is preserved as the release marker, and `--no-log` so Git does not auto-append a shortlog of the merged commits.
 
 ```
 git checkout master
 git pull --ff-only
-git merge --no-ff develop
+git merge --no-ff --no-log develop
 ```
+
+Always pass `--no-log`. The release body below is a hand-written, categorised summary; if `merge.log` is enabled (globally or per-repo) Git appends its own one-line list of every merged commit on top of it, so the same changes end up listed twice. `--no-log` suppresses that auto-generated list and leaves only the summary you wrote.
 
 ### Subject
 
