@@ -7,8 +7,9 @@ description: Use when the user asks to triage, resolve, fix, or work through unr
 
 Walks an agent through every unresolved Sentry issue in the current project, one
 at a time. Each issue is investigated to root cause, the same pattern is hunted
-across the whole codebase, the fix is proposed and approved, then committed with
-a `Fixes <ID>` trailer so Sentry auto-closes it.
+across the whole codebase, the fix is proposed and approved, and committed.
+Resolving the Sentry issue is a **separate, explicit decision** — never assume a
+fix should auto-close the issue; always ask first.
 
 This is a workflow skill, not a coding-convention skill — it expects to be
 *invoked* (via natural phrasing or `/sentry-triage`), not auto-applied to every
@@ -24,9 +25,8 @@ Before doing anything else:
   Do **not** try to fall back to scraping the Sentry UI or asking the user to
   paste issue dumps — the structured tool output is what the rest of the skill
   depends on.
-- **Working directory must be a Git repo.** The `Fixes <ISSUE-ID>` trailer only
-  auto-resolves through Git integration. If `.git` is missing, stop and tell
-  the user.
+- **Working directory must be a Git repo.** The fix is delivered as a commit. If
+  `.git` is missing, stop and tell the user.
 
 A failed preflight ends the skill cleanly. Don't continue half-configured.
 
@@ -120,15 +120,31 @@ Then **stop**. Do not edit until the user explicitly approves. If the user
 pushes back ("only fix the reported one", "use a different approach", "skip
 this issue"), revise — don't argue and don't proceed.
 
-### 4e. Implement and commit
+### 4e. Implement
 
 After approval:
 
 - Apply the edits.
 - Run the project's quality gate if one exists (PHPStan, Pint, tests). If it
   fails, stop and fix — never `--no-verify`.
-- Commit with a clear subject and a body that includes a `Fixes <ISSUE-ID>`
-  trailer. Sentry auto-resolves the issue on push.
+
+### 4f. Ask whether to resolve the issue — then commit
+
+Applying a fix does **not** imply the Sentry issue should be closed. The user
+may want to verify in production first, keep it open until the next release, or
+deliberately leave it unresolved. **Always ask explicitly** whether to resolve
+the issue — never default to closing it.
+
+Resolution is done **through the MCP**, not via the commit. A `Fixes <ID>`
+commit trailer only auto-closes the issue when Sentry's Git integration is
+configured for the repo — that cannot be assumed, so do not rely on it.
+
+- **Always:** commit the fix with a clear subject and body. Reference the issue
+  ID in the body for traceability (e.g. `Refs ACME-WEB-12K`).
+- **If the user wants it resolved:** after committing, call
+  `mcp__sentry__update_issue` with `status: resolved` to close it explicitly.
+- **If the user does not want it resolved (or is unsure):** stop after the
+  commit; leave the issue open.
 
 ```
 Fix null profile access on user export
@@ -137,14 +153,10 @@ Profile may be null for users imported before the profile-onboarding flow
 shipped. Guarding the access path here and at the four other call sites
 the same pattern was used.
 
-Fixes ACME-WEB-12K
+Refs ACME-WEB-12K
 ```
 
-`Fixes <ID>` in the commit body is sufficient. Calling
-`mcp__sentry__update_issue` on top of a `Fixes` commit is redundant — pick one
-path, don't do both.
-
-### 4f. Next issue
+### 4g. Next issue
 
 Move to the next unresolved issue in the list and start again at 4a. Don't
 skip ahead, don't combine fixes.
@@ -171,5 +183,9 @@ in this workflow.
 - **Reuse existing patterns.** If similar problems are solved elsewhere in the
   codebase, copy that style instead of inventing a new one.
 - **One issue at a time.** Always wait for approval per issue.
+- **Resolving is never automatic.** Applying a fix and closing the Sentry issue
+  are two separate decisions. Always ask before resolving — and resolve through
+  `mcp__sentry__update_issue`, only when the user says so. Don't rely on a
+  `Fixes` commit trailer; auto-close requires Git integration that may not exist.
 - **N+1 issues need a full path trace.** Walk Controller → Resource →
   relations to find every missing eager load — not just the one Sentry showed.
